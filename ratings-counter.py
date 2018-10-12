@@ -22,7 +22,10 @@ sample (top 3 lines)
 2|GoldenEye (1995)|01-Jan-1995||http://us.imdb.com/M/title-exact?GoldenEye%20(1995)|0|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0
 3|Four Rooms (1995)|01-Jan-1995||http://us.imdb.com/M/title-exact?Four%20Rooms%20(1995)|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0
 """
-# setAppName is for us to identify the job in Spark Web UI by its name
+# setAppName:
+#  is for us to identify the job in Spark Web UI by its name
+# setMaster("local"):
+#  will set its master node as the local machine, in a single thread on a single process.
 conf = SparkConf().setMaster("local").setAppName("RatingsHistogram")
 sc = SparkContext(conf=conf)
 
@@ -48,11 +51,10 @@ ratings is similar to:
 3
 1
 """
-ratings = lines.map(lambda x: x.split()[2])
+ratings = lines.map(lambda x: x.split()[2])  # <class 'pyspark.rdd.PipelinedRDD'>
 # for rating in ratings.collect():
 #     print(rating)
-
-result = ratings.countByValue()
+result = ratings.countByValue()  # <class 'collections.defaultdict'>
 result_sorted = sorted(result.items())
 
 """
@@ -80,4 +82,5 @@ Result:
 4 34174
 5 21201
 """
+
 # THE END
